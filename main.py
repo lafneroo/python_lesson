@@ -1,14 +1,28 @@
 ﻿"""
     Точка входа приложения Task manager
-    V0.0.3
+    V0.0.4
     --- description ---
-- [ ] реализовать редактирование задач
-- [ ] реализовать удаление задач
+- [х] создать разделение меню/ответ
+- [ ] оптимизировать код
 """
 print("спасибо за вход")
 
 is_running = True
 collection = []
+
+"""выводит список в консоль"""
+def ShowCollection(task_list):
+    print("=" * 30)
+    for key, item in enumerate(task_list):
+        print(key + 1, item)
+    print("=" * 30)
+"""показывает список и ждёт завершение"""
+def ShowMassage(flag = bool, Massage = None):
+    if flag:
+        print(f"задача {Massage} добавлена")
+        ShowCollection(collection)
+    input("нажмите любую кнопу для продолжени")
+
 
 while is_running  :
     print('1 - посмотреть задачи'
@@ -19,26 +33,29 @@ while is_running  :
     choice_user = input("введите команду: ")
 
     match choice_user:
-        case "1":
-            for key, item in enumerate(collection):
-                print(key + 1, item)
-        case "2":
+        case "1":  #просмотр списка
+            ShowCollection(collection)
+            input("нажмите любую кнопу для продолжени")
+        case "2":  #добавление в список
             task_name = input('введите название задачи: ')
             collection.append(task_name)
-        case "3":
-            for key,item in enumerate(collection):
-                print(key + 1, item)
+            print(f"задача {task_name} добавлена")
+            ShowCollection(collection)
+            input("нажмите любую кнопу для продолжени")
+        case "3":  #изменение элемента
+            ShowCollection(collection)
             select_edit = int(input('введите номер задачи: '))
             edit_name = input("новое имя задачи: ")
             collection[select_edit - 1 ] = edit_name
-        case "4":
-            for key, item in enumerate(collection):
-                print(key + 1, item)
+            input("нажмите любую кнопу для продолжени")
+        case "4":  #удаление элемента
+            ShowCollection(collection)
             delete_edit = int(input('введите номер задачи: '))
             collection.pop(delete_edit - 1)
-        case "5":
+            input("нажмите любую кнопу для продолжени")
+        case "5":  #завершение цикла
             print("отключение...")
             is_running = False
-        case _:
+        case _:  #неверная команда
             print('неверная команда')
-
+            input("нажмите любую кнопу для продолжени")
