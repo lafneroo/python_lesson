@@ -40,7 +40,6 @@
 
     v(0.1.1)
 """
-from re import fullmatch
 
 """основной цикл"""
 
@@ -88,6 +87,7 @@ def show_collection(task_list):
         print(number + 1, task_temp[0])
         full_task_list.append(task_temp[1])
     selected_task = input("выберите номер задачи для просмотра или ENTER для пропуска")
+    print("=" * 30)
     if selected_task.isdigit():
         print("~" * 30)
         print(f"{full_task_list[int(selected_task)-1]}")
@@ -119,7 +119,8 @@ def check_confirm(action: str):
             or 'Д'):
         print(action)
         return False
-    else:
+    elif (confirm.capitalize().startswith('') == "N"
+            or "Н"):
         print("отмена")
         return True
 
@@ -128,9 +129,9 @@ def check_confirm(action: str):
 
 
 def create_task(task_list, file):
-    name_task = input("введите имя задачи")
+    name_task = input("введите имя задачи: ")
     if len(name_task) > 0 and name_task not in task_list and name_task is not None:
-        content_task = input("введите описание задачи")
+        content_task = input("введите описание задачи: ")
         if content_task is not None and len(content_task) >= 1:
             full_task = f"{name_task} | {content_task}"
             task_list.append(full_task)
