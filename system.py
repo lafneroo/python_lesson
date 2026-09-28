@@ -28,8 +28,7 @@ while is_running:
                               "3 - архитектура системы\n"
                               "4 - билд\n"
                               "5 - процессор\n"
-                              "6 - версия python\n"
-                              "7 - <UNK> <UNK>\n")
+                              "6 - версия python\n")
     match choice_user:
         case "1":
             sys.stdout.write(f"{list_os[0]}\n")
