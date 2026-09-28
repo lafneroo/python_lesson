@@ -31,7 +31,16 @@
 
     v(0.0.8)
     реализован функционал добавления контента задачи - имя + содержание
+
+    v(0.0.9)
+    обновлено отображение коллекции - name | content
+
+    v(0.1.0)
+    создать модули и сделать review code
+
+    v(0.1.1)
 """
+from re import fullmatch
 
 """основной цикл"""
 
@@ -49,7 +58,7 @@ def main():
               '\n5 - выход')
         choice_user = input("введите команду: ")
 
-        match choice_user:
+        match str(choice_user):
             case "1":  # просмотр списка
                 show_collection(collection)
             case "2":  # добавление в список
@@ -59,7 +68,7 @@ def main():
                 save_collection(collection, name_file)
             case "4":  # удаление элемента
                 show_collection(collection)
-                deleated_task(collection)
+                deleted_task(collection)
                 save_collection(collection, name_file)
             case "5":  # завершение цикла
                 is_running = check_confirm('отключение...')
@@ -73,8 +82,21 @@ def main():
 
 def show_collection(task_list):
     print("=" * 30)
-    for i, j in enumerate(task_list):
-        print(i + 1, j)
+    full_task_list = []
+    for number, task in enumerate(task_list):
+        task_temp = task.split(" | ")
+        print(number + 1, task_temp[0])
+        full_task_list.append(task_temp[1])
+    selected_task = input("выберите номер задачи для просмотра или ENTER для пропуска")
+    if selected_task.isdigit():
+        print("~" * 30)
+        print(f"{full_task_list[int(selected_task)-1]}")
+        print("~" * 30)
+    else:
+        if selected_task == "":
+            print("~" * 30)
+        else:
+            print('задачи с таким номером нет ')
     print("=" * 30)
 
 
@@ -102,7 +124,7 @@ def check_confirm(action: str):
         return True
 
 
-"""содзание задач"""
+"""создание задач"""
 
 
 def create_task(task_list, file):
@@ -110,7 +132,7 @@ def create_task(task_list, file):
     if len(name_task) > 0 and name_task not in task_list and name_task is not None:
         content_task = input("введите описание задачи")
         if content_task is not None and len(content_task) >= 1:
-            full_task = f"{name_task} {content_task}"
+            full_task = f"{name_task} | {content_task}"
             task_list.append(full_task)
             save_collection(task_list, file_name=file)
             show_message(message=name_task, mess_action='добавлена')
@@ -130,7 +152,7 @@ def edited_task(task_list):
 """удаление элемента"""
 
 
-def deleated_task(task_list):
+def deleted_task(task_list):
     delete_edit = int(input('введите номер задачи: '))
     if not check_confirm('удаление выполненно'):
         task_list.pop(delete_edit - 1)
