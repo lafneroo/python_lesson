@@ -1,2 +1,2 @@
-sleep | tomorow
-eat | now
+sleep | now
+eat | after
