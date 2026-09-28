@@ -1,17 +1,44 @@
-﻿"""
-    Точка входа приложения Task manager
-    V0.0.5
-    --- description ---
-- [ ] уменьшить долю структурного кода
-- [ ] сделать систему сохранений
+""" Приложение Task Manager
+    =============================================================
+        консольное приложение - менеджер управления заметок,
+        пользователь может создать заметку, редактировать,
+        посмотреть все заметки или удалить выбранную.
+    =============================================================
+    ~~~~~~~~~~~~~~~~~~~~~
+    | version app 0.0.7 |
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    v(0.0.1)
+    разработан цикл приложения - структурное программирование
+
+    v(0.0.2)
+    внедрен  i/o функционал для ввода задачи
+
+    v(0.0.3)
+    разработаны функции для цикла - функциональное программирование
+
+    v(0.0.4)
+    добавлены проверки и подтверждения
+
+    v(0.0.5)
+    созданы методы сохранения и загрузки - файловые сохранения
+
+    v(0.0.6)
+    созданы методы для удаления, редактирования и создания задач - логика вынесена из цикла
+
+    v(0.0.7)
+    основной цикл помещен в отдельный метод - def main
+
+    v(0.0.8)
+    реализован функционал добавления контента задачи - имя + содержание
 """
 
-
-
 """основной цикл"""
+
+
 def main():
-    collection = load_collection([])
     name_file = "saves.txt"
+    collection = load_collection([], name_file)
     is_running = True
 
     while is_running:
@@ -24,42 +51,46 @@ def main():
 
         match choice_user:
             case "1":  # просмотр списка
-                ShowCollection(collection)
-                ShowMassage(collection)
+                show_collection(collection)
             case "2":  # добавление в список
-                task_name = input('введите название задачи: ')
-                collection.append(task_name)
-                save_collection(collection, name_file)
-                ShowMassage(task_name, 'добавлена')
+                create_task(collection, name_file)
             case "3":  # изменение элемента
                 edited_task(collection)
                 save_collection(collection, name_file)
             case "4":  # удаление элемента
-                ShowCollection(collection)
+                show_collection(collection)
                 deleated_task(collection)
                 save_collection(collection, name_file)
             case "5":  # завершение цикла
-                is_running = chek_confirm('отключение...')
+                is_running = check_confirm('отключение...')
             case _:  # неверная команда
                 print('неверная команда')
-                ShowMassage()
+                show_message()
+
 
 """выводит список в консоль"""
-def ShowCollection(task_list):
+
+
+def show_collection(task_list):
     print("=" * 30)
     for i, j in enumerate(task_list):
         print(i + 1, j)
     print("=" * 30)
 
+
 """показывает список и ждёт завершение"""
-def ShowMassage(task_list = None,  Massage = None, mess_action = None ):
-    if Massage is not None:
-        print(f"задача {Massage} {mess_action}")
-        ShowCollection(task_list)
+
+
+def show_message(message=None, mess_action=None):
+    if message is not None:
+        print(f"задача {message} успешно {mess_action}")
     input("нажмите любую кнопу для продолжени")
 
+
 """подтверждение действия"""
-def chek_confirm(action: str ):
+
+
+def check_confirm(action: str):
     confirm = input("точно?"
                     "\n Y/N")
     if (confirm.capitalize().startswith('') == "Y"
@@ -69,47 +100,63 @@ def chek_confirm(action: str ):
     else:
         print("отмена")
         return True
-""""""
+
 
 """содзание задач"""
-def create_task(task_list):
-    name_task = input("введите имя задачи")
-    if name_task != name_task not in task_list and name_task is not None:
-        content_task = input("введите описание задачи") 
 
+
+def create_task(task_list, file):
+    name_task = input("введите имя задачи")
+    if len(name_task) > 0 and name_task not in task_list and name_task is not None:
+        content_task = input("введите описание задачи")
+        if content_task is not None and len(content_task) >= 1:
+            full_task = f"{name_task} {content_task}"
+            task_list.append(full_task)
+            save_collection(task_list, file_name=file)
+            show_message(message=name_task, mess_action='добавлена')
 
 
 """изменение задачи"""
+
+
 def edited_task(task_list):
-    ShowCollection(task_list)
+    show_collection(task_list)
     select_edit = int(input('введите номер задачи: '))
     edit_name = input("новое имя задачи: ")
     task_list[select_edit - 1] = edit_name
-    ShowMassage(edit_name, 'измененна')
+    show_message(message=edit_name, mess_action='измененна')
+
 
 """удаление элемента"""
+
+
 def deleated_task(task_list):
     delete_edit = int(input('введите номер задачи: '))
-    if not chek_confirm('удаление выполненно'):
+    if not check_confirm('удаление выполненно'):
         task_list.pop(delete_edit - 1)
-    ShowCollection(task_list)
-    ShowMassage(delete_edit, "удалена")
+    show_collection(task_list)
+    show_message(message=delete_edit, mess_action="удалена")
+
 
 """загрузка"""
+
+
 def load_collection(task_list, file_name):
-    task_list = []
     with open(file_name, "r", encoding="utf-8") as file:
-    for line in file:
-        task_list.append(line.strip())
-    file.close()
+        for line in file:
+            task_list.append(line.strip())
+        file.close()
     return task_list
 
+
 """сохранение"""
+
+
 def save_collection(task_list, file_name):
     with open(file_name, 'w', encoding='utf-8') as file:
-    for task in task_list:
-        file.writelines(f"{task}\n")
-    file.close()
+        for task in task_list:
+            file.writelines(f"{task}\n")
+        file.close()
 
 
 print("спасибо за вход")
