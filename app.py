@@ -7,12 +7,14 @@
 
 from storage import load_collection, save_collection
 from wiew import show_message, show_collection
-from core import create_task, edited_task,deleted_task
-from utils import check_confirm
+from core import create_task, edited_task, deleted_task
+from utils import check_confirm, get_base_dir, insure_save_file
+import os.path
 """основной цикл"""
 
 def app():
-    name_file = "saves.txt"
+    name_file = os.path.join(get_base_dir(), "saves.txt")
+    insure_save_file(name_file)
     collection = load_collection([], name_file)
     is_running = True
 
