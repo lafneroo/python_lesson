@@ -2,8 +2,8 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/task manager/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/task manager/.venv" />
+      <sourceFolder url="file://$MODULE_DIR$/task_manager/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/task_manager/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.13" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

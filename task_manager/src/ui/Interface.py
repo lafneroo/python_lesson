@@ -1,9 +1,10 @@
 import tkinter as tk
 from .components.AppButton import AppButton
 
+
 "основной отрисовщик"
 class interface:
-    def __init__(self, width=500, height=500):
+    def __init__(self, collection, width=500, height=500,):
         self.root = tk.Tk()
 
         self.width = width
@@ -12,14 +13,17 @@ class interface:
         self.root.iconbitmap("../assets/icon.ico")
         self.root.title("Task Manager")
         self.root.configure(bg="black")
-
+        self.task_lists = collection
 
 
     "отображает меню"
     def show_menu(self):
-        AppButton(self.root, "primary").pack()
+        AppButton(self.root, "primary", text="показать задачи", command=lambda:self.show_tasks()).pack()
 
     "отображение задач"
     def show_tasks(self):
-        lable = tk.Label(self.root, text="задача1").pack()
+        task_box = tk.Listbox(self.root)
+        for task in self.task_lists:
+            task_box.insert(tk.END, task[0]["name"])
+        task_box.pack()
 
