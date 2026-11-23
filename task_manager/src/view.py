@@ -1,15 +1,13 @@
 """
 ======================================================
-    модуль вывода информации в консоль
+    модуль запуска интерфейса
+    (совместимость: использует новую архитектуру)
 ======================================================
 """
 
-from ui.Interface import interface
-from storage import save_collection, load_collection, save_collection
+from task_manager import TaskManager
 
-collection = load_collection([])
-ui = interface(collection)
-ui.show_menu()
+if __name__ == "__main__":
+    TaskManager().run()
 
-ui.root.mainloop()
 

@@ -1,7 +1,10 @@
 [
-  {
-    "name": "1234",
-    "content": "321",
-    "author": "rerererererer"
-  }
+    {
+        "id": 1,
+        "title": "сделать дз",
+        "description": "дз по модулям",
+        "status": "todo",
+        "author": "lafneroo",
+        "created_at": ""
+    }
 ]
